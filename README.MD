@@ -1,4 +1,3 @@
-```markdown
 # Async HTTP Client with Proxy Support
 
 Асинхронный HTTP клиент с поддержкой прокси и управлением сессиями
