@@ -206,9 +206,9 @@ class Proxer:
                 if len(parts) < 4:
                     raise ValueError("Invalid proxy format")
                 return f"{protocol}://{parts[0]}:{parts[1]}", parts[2], parts[3]
-        except:
-            print_exc()
-            return None
+            
+        except Exception as ex:
+            raise ex
         
         
         
