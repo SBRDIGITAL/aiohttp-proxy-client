@@ -30,31 +30,6 @@ venv\Scripts\activate.bat  # Windows
 pip install -r requirements.txt
 ```
 
-## Использование
-
-### Базовый пример
-```python
-from async_http_client import AsyncHttpClient, Proxer
-
-async def main():
-    proxer = Proxer("proxies.txt")
-    proxy, login, password = proxer.get_random_proxy()
-    
-    async with AsyncHttpClient() as client:
-        response = await client.fetch(
-            url="https://api.example.com/data",
-            method="GET",
-            mode="JSON",
-            proxy=proxy,
-            proxy_auth=client.get_proxy_auth(login, password)
-        )
-        print(response)
-
-# Запуск асинхронного приложения
-import asyncio
-asyncio.run(main())
-```
-
 ### Формат файла прокси
 Файл `proxies.txt` должен содержать прокси в формате:
 ```
