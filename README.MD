@@ -31,7 +31,8 @@ pip install -r requirements.txt
 ```
 
 ### Формат файла прокси
-Файл `proxies.txt` должен содержать прокси в формате:
+- Создайте в корне проекта файл `proxies.txt`.
+- Файл `proxies.txt` должен содержать прокси в формате:
 ```
 http://host:port:login:password
 socks5://127.0.0.1:8080:user:pass
