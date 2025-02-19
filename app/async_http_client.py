@@ -96,7 +96,8 @@ class AsyncHttpClient(AsyncHttpClientHelper):
         proxy_auth: Optional[BasicAuth] = None,
         cookies: Optional[dict] = None,
         headers: Optional[dict] = None,
-        params: Optional[dict] = None
+        params: Optional[dict] = None,
+        json: Optional[dict] = None,
     ) -> list | dict | str | None:
         """
         ## Выполняет HTTP запрос.
@@ -124,7 +125,7 @@ class AsyncHttpClient(AsyncHttpClientHelper):
                 await self.close(session)
                 return res
         elif method == 'POST':
-            async with session.post(url, params=params) as response:
+            async with session.post(url, params=params, json=json) as response:
                 res = await self.__return_result(mode, response)
                 await self.close(session)
                 return res
