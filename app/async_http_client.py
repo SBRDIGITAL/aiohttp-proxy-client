@@ -111,6 +111,7 @@ class AsyncHttpClient(AsyncHttpClientHelper):
             cookies (Optional[dict], optional): Куки запроса. Defaults to None.
             headers (Optional[dict], optional): Заголовки запроса. Defaults to None.
             params (Optional[dict], optional): Параметры запроса. Defaults to None.
+            json (Optional[dict], optional): JSON объект для отправки в запросе. Defaults to None.
 
         Returns:
             Union[list, dict, str, None]: Ответ в указанном формате или None при ошибке.
