@@ -58,7 +58,8 @@ class AsyncHttpClient(AsyncHttpClientHelper):
 
     async def __return_result(self,
         mode: AppLiterals.ReqReturnMode,
-        response: ClientResponse
+        response: ClientResponse,
+        raise_for_status: bool = False
     ) -> dict | list | str:
         """
         ## Обрабатывает ответ сервера и возвращает данные в указанном формате.
@@ -80,7 +81,7 @@ class AsyncHttpClient(AsyncHttpClientHelper):
             JSONDecodeError: При ошибках парсинга JSON (в режиме 'JSON').
         """      
         try:
-            response.raise_for_status()
+            response.raise_for_status() if raise_for_status else None
             if mode == 'JSON':
                 return await response.json()
             elif mode == 'TEXT':
@@ -98,6 +99,7 @@ class AsyncHttpClient(AsyncHttpClientHelper):
         headers: Optional[dict] = None,
         params: Optional[dict] = None,
         json: Optional[dict] = None,
+        raise_for_status: bool = False,
     ) -> list | dict | str | None:
         """
         ## Выполняет HTTP запрос.
@@ -106,12 +108,13 @@ class AsyncHttpClient(AsyncHttpClientHelper):
             url (str): Целевой URL
             method (AppLiterals.ReqMethods): HTTP метод (GET/POST).
             mode (AppLiterals.ReqReturnMode): Формат ответа (JSON/TEXT).
-            proxy (Optional[str], optional): Прокси-сервер. Defaults to None.
+            proxy (Optional[str]): Прокси-сервер. Defaults to None.
             proxy_auth (Optional[BasicAuth], optional): Аутентификация прокси. Defaults to None.
-            cookies (Optional[dict], optional): Куки запроса. Defaults to None.
-            headers (Optional[dict], optional): Заголовки запроса. Defaults to None.
-            params (Optional[dict], optional): Параметры запроса. Defaults to None.
-            json (Optional[dict], optional): JSON объект для отправки в запросе. Defaults to None.
+            cookies (Optional[dict): Куки запроса. Defaults to None.
+            headers (Optional[dict]): Заголовки запроса. Defaults to None.
+            params (Optional[dict]): Параметры запроса. Defaults to None.
+            json (Optional[dict]): JSON объект для отправки в запросе. Defaults to None.
+            raise_for_status (bool): Нужно ли сделать raise, если статус код не 200. Defaults to False.
 
         Returns:
             Union[list, dict, str, None]: Ответ в указанном формате или None при ошибке.
@@ -122,12 +125,12 @@ class AsyncHttpClient(AsyncHttpClientHelper):
         session = self.get_session(proxy, proxy_auth, cookies, headers)
         if method == 'GET':
             async with session.get(url, params=params) as response:
-                res = await self.__return_result(mode, response)
+                res = await self.__return_result(mode, response, raise_for_status)
                 await self.close(session)
                 return res
         elif method == 'POST':
             async with session.post(url, params=params, json=json) as response:
-                res = await self.__return_result(mode, response)
+                res = await self.__return_result(mode, response, raise_for_status)
                 await self.close(session)
                 return res
 
