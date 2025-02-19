@@ -72,6 +72,7 @@ class AsyncHttpClient(AsyncHttpClientHelper):
                 - 'JSON': возвращает распарсенный JSON-объект.
                 - 'TEXT': возвращает сырой текст ответа.
             response (ClientResponse): Объект ответа от сервера.
+            raise_for_status (bool): Нужно ли сделать raise, если статус код не 200. Defaults to False.
 
         Returns:
             Union[dict, list, str, None]: Результат в указанном формате или None при ошибке.
