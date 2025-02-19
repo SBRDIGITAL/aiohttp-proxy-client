@@ -120,10 +120,14 @@ class AsyncHttpClient(AsyncHttpClientHelper):
         session = self.get_session(proxy, proxy_auth, cookies, headers)
         if method == 'GET':
             async with session.get(url, params=params) as response:
-                return await self.__return_result(mode, response)
+                res = await self.__return_result(mode, response)
+                await self.close(session)
+                return res
         elif method == 'POST':
             async with session.post(url, params=params) as response:
-                return await self.__return_result(mode, response)
+                res = await self.__return_result(mode, response)
+                await self.close(session)
+                return res
 
     async def close(self, session: Optional[ClientSession] = None) -> None:
         """
